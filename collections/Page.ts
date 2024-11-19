@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 export const Page: CollectionConfig = {
-  slug: 'page',
+  slug: 'pages',
   admin: {
     useAsTitle: 'title',
   },
@@ -10,6 +10,18 @@ export const Page: CollectionConfig = {
       name: 'title',
       type: 'text',
       required: true,
+      admin: {
+        position: 'sidebar',
+      }
+    },
+    {
+      name: 'slug',
+      type: 'text',
+      required: true,
+      admin: {
+        position: 'sidebar',
+        description: 'The URL path for this page',
+      }
     },
     {
       name: 'bannerImage',
