@@ -1,8 +1,6 @@
-import Image from "next/image";
 import { getPayload } from "payload";
 import config from "@payload-config";
 import { notFound } from "next/navigation";
-import { Media } from "@/payload-types";
 import FullWidthImage from "./_components/images/FullWidth";
 
 export default async function Home() {
