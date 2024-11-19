@@ -1,7 +1,7 @@
 import { Media } from "@/payload-types";
 import Image from "next/image";
 
-export default function FullWidthImage({ image }: { image: Media | null }) {
+export default function FullWidthImage({ image }: { image: Media }) {
   
   if (!image?.url) return null;
 
