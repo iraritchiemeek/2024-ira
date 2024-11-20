@@ -12,7 +12,23 @@ type SerializedNode =
   | SerializedLinkNode 
   | SerializedTextNode 
   | DefaultTypedEditorState['root']
-  | (SerializedParagraphNode['children'][number]);
+  | SerializedParagraphNode['children'][number];
+
+const isParagraphNode = (node: SerializedNode): node is SerializedParagraphNode => {
+  return node.type === 'paragraph';
+};
+
+const isLinkNode = (node: SerializedNode): node is SerializedLinkNode => {
+  return node.type === 'link';
+};
+
+const isTextNode = (node: SerializedNode): node is SerializedTextNode => {
+  return node.type === 'text';
+};
+
+const isRootNode = (node: SerializedNode): node is DefaultTypedEditorState['root'] => {
+  return node.type === 'root';
+};
 
 type RichTextProps = {
   content: SerializedNode;
@@ -24,36 +40,31 @@ function RichText({ content }: RichTextProps) {
   const serializer = (node: SerializedNode, index: number): React.ReactNode => {
     if (!node) return null;
 
-    switch (node.type) {
-      case 'paragraph': {
-        return (
-          <p key={index} className="pb-2">
-            {(node as SerializedParagraphNode).children?.map((child, i: number) => serializer(child, i))}
-          </p>
-        );
-      }
-      case 'link': {
-        return (
-          <Link 
-            key={index} 
-            href={(node as SerializedLinkNode).fields?.url || '#'}
-          >
-            {(node as SerializedLinkNode).children?.map((child, i) => serializer(child as SerializedNode, i))}
-          </Link>
-        );
-      }
-      
-      case 'text': {
-        return (node as SerializedTextNode).text;
-      }
-      
-      case 'root': {
-        return (node as DefaultTypedEditorState['root']).children?.map((child, i) => serializer(child, i));
-      }
-      
-      default:
-        return null;
+    if (isParagraphNode(node)) {
+      return (
+        <p key={index} className="pb-2">
+          {node.children?.map((child, i) => serializer(child, i))}
+        </p>
+      );
     }
+
+    if (isLinkNode(node)) {
+      return (
+        <Link key={index} href={node.fields?.url || '#'}>
+          {node.children?.map((child, i) => serializer(child, i))}
+        </Link>
+      );
+    }
+
+    if (isTextNode(node)) {
+      return node.text;
+    }
+
+    if (isRootNode(node)) {
+      return node.children?.map((child, i) => serializer(child, i));
+    }
+
+    return null;
   };
 
   return <>{serializer(content, 0)}</>;
