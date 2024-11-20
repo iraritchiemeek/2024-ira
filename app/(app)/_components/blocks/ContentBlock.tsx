@@ -1,53 +1,71 @@
+import type { 
+  DefaultTypedEditorState,
+  SerializedParagraphNode,
+  SerializedLinkNode,
+  SerializedTextNode,
+} from '@payloadcms/richtext-lexical';
 import ContentGrid from "../layout/ContentGrid";
 import Link from "../typography/Link";
-type Props = {
-  title: string;
-  supporting?: any; 
-  content: any; 
-};
 
-function RichText({ content }: { content: any }) {
+type SerializedNode = 
+  | SerializedParagraphNode 
+  | SerializedLinkNode 
+  | SerializedTextNode 
+  | DefaultTypedEditorState['root']
+  | (SerializedParagraphNode['children'][number]);
+
+type RichTextProps = {
+  content: SerializedNode;
+}
+
+function RichText({ content }: RichTextProps) {
   if (!content) return null;
   
-  const serializer = (node: any, index: number) => {
+  const serializer = (node: SerializedNode, index: number): React.ReactNode => {
+    if (!node) return null;
 
-    console.log(node);
-
-    if (node.type === 'paragraph') {
-      return (
-        <p key={index} className="pb-2">
-          {node.children.map((child: any, index: number) => serializer(child, index))}
-        </p>
-      );
+    switch (node.type) {
+      case 'paragraph': {
+        return (
+          <p key={index} className="pb-2">
+            {(node as SerializedParagraphNode).children?.map((child, i: number) => serializer(child, i))}
+          </p>
+        );
+      }
+      case 'link': {
+        return (
+          <Link 
+            key={index} 
+            href={(node as SerializedLinkNode).fields?.url || '#'}
+          >
+            {(node as SerializedLinkNode).children?.map((child, i) => serializer(child as SerializedNode, i))}
+          </Link>
+        );
+      }
+      
+      case 'text': {
+        return (node as SerializedTextNode).text;
+      }
+      
+      case 'root': {
+        return (node as DefaultTypedEditorState['root']).children?.map((child, i) => serializer(child, i));
+      }
+      
+      default:
+        return null;
     }
-    
-    if (node.type === 'link') {
-      return (
-        <Link 
-          key={index} 
-          href={node.fields.url}
-          target={node.fields.newTab ? '_blank' : '_self'}
-        >
-          {node.children.map((child: any, index: number) => serializer(child, index))}
-        </Link>
-      );
-    }
-    
-    if (node.type === 'text') {
-      return node.text;
-    }
-    
-    if (node.type === 'root') {
-      return node.children.map((child: any, index: number) => serializer(child, index));
-    }
-    
-    return null;
   };
 
   return <>{serializer(content, 0)}</>;
 }
 
-export default function ContentBlock({ title, supporting, content }: Props) {
+type ContentBlockProps = {
+  title: string;
+  supporting?: DefaultTypedEditorState;
+  content: DefaultTypedEditorState;
+}
+
+export default function ContentBlock({ title, supporting, content }: ContentBlockProps) {
   return (
     <div className="container mx-auto py-24">
       <ContentGrid>
