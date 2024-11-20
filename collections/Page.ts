@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { Content } from './blocks/Content'
 
 export const Page: CollectionConfig = {
   slug: 'pages',
@@ -9,17 +10,13 @@ export const Page: CollectionConfig = {
     {
       name: 'title',
       type: 'text',
-      required: true,
-      admin: {
-        position: 'sidebar',
-      }
+      required: true
     },
     {
       name: 'slug',
       type: 'text',
       required: true,
       admin: {
-        position: 'sidebar',
         description: 'The URL path for this page',
       }
     },
@@ -30,6 +27,17 @@ export const Page: CollectionConfig = {
       required: false,
       admin: {
         description: 'Select or upload a banner image'
+      }
+    },
+    {
+      name: 'layout',
+      type: 'blocks',
+      required: true,
+      blocks: [
+        Content,
+      ],
+      admin: {
+        description: 'Choose the content blocks to build this page'
       }
     }
   ]
