@@ -8,7 +8,7 @@ export default function ContentGrid({
   children: React.ReactNode;
 }) {
   return (
-    <div className={cn("grid grid-cols-6 [&>*]:px-2", className)}>
+    <div className={cn("grid grid-cols-6 [&>*]:px-4", className)}>
       {children}
     </div>
   );
