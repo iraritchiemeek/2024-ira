@@ -5,6 +5,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --yoga-blue: 192.86 56.32% 65.88%;
 }
 
 @media (prefers-color-scheme: dark) {

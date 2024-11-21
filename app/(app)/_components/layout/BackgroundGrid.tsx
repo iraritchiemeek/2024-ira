@@ -1,3 +1,5 @@
+import { cn } from "../../_lib/utils";
+
 export default function BackgroundGrid() {
   return (
     <div className="fixed h-screen w-screen pointer-events-none invisible md:visible inset-0">
@@ -5,11 +7,10 @@ export default function BackgroundGrid() {
         {Array.from({ length: 6 }, (_, index) => (
           <div
             key={index}
-            className={
-              index === 0
-                ? "border-x border-x-black opacity-25"
-                : "border-r border-r-black opacity-25"
-            }
+            className={cn(
+              "border-yoga-blue/25",
+              index === 0 ? "border-x-2" : "border-r-2"
+            )}
           ></div>
         ))}
       </div>

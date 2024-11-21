@@ -11,6 +11,9 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        "yoga-blue": {
+          DEFAULT: "hsl(var(--yoga-blue) / <alpha-value>)",
+        },
       },
     },
   },
