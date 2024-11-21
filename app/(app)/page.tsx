@@ -18,17 +18,20 @@ export default async function Home() {
   });
 
   const page = result.docs[0];
+  const section1 = page.layout?.[0];
 
   if (!page) {
     notFound();
   }
 
-  console.log(page);
-
   return (
     <div className="w-full h-screen">
       <FullWidthImage image={page.bannerImage as Media} />
-      <ContentBlock title={page.layout[0].title} supporting={page.layout[0].supporting} content={page.layout[0].content} />
+      <ContentBlock
+        title={section1?.title}
+        supporting={section1?.supporting}
+        content={section1?.content}
+      />
     </div>
   );
 }

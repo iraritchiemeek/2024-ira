@@ -6,19 +6,16 @@ import type {
   SerializedTextNode,
 } from "@payloadcms/richtext-lexical";
 
+import type { SerializedLexicalNode } from "lexical";
+
 import { Fragment } from "react";
 import Link from "../typography/Link";
 
 const IS_BOLD = 1;
 
-type SerializedNode =
-  | SerializedParagraphNode
-  | SerializedLinkNode
-  | SerializedTextNode
-  | SerializedParagraphNode["children"][number];
 
 interface SerializeProps {
-  nodes?: SerializedNode[];
+  nodes?: SerializedLexicalNode[];
 }
 
 export function SerializeLexical({ nodes }: SerializeProps) {
