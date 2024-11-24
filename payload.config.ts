@@ -19,11 +19,14 @@ const dbConfig = {
     pool: {
       connectionString: process.env.DATABASE_URL || ''
     },
+    migrationDir: "./migrations"
   }),
   production: vercelPostgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URL || ''
-    }
+    },
+    migrationDir: "./migrations"
+
   })
 }
 
