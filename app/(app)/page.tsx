@@ -21,7 +21,7 @@ export default async function Home() {
   const section1 = page.layout?.[0];
 
   if (!page) {
-    return null;
+    notFound();
   }
 
   return (
