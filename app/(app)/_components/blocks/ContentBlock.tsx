@@ -1,10 +1,6 @@
 import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical';
 import ContentGrid from "../layout/ContentGrid";
 import RichText from "../RichText";
-import type {
-  SerializedLexicalNode,
-} from "lexical";
-
 
 type ContentBlockProps = {
   title: string;
